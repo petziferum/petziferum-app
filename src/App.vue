@@ -4,11 +4,30 @@
       app
       color="primary"
       dark
+      shrink-on-scroll
+      :src="require('./assets/Bugasee-edit.jpg')"
+      prominent
+      elevation="0"
+      min-height="200px"
     >
-      <v-spacer></v-spacer>
-      <v-img :src="logo" contain max-width="140px"></v-img>
-      <span class="headline"> - APP</span>
+        <template v-slot:img="{ props }">
+            <v-img
+                    v-bind="props"
+                    gradient="to top right, rgba(90,190,236,.7), rgba(25,32,172,.7)"
+            ></v-img>
+        </template>
+      <v-img :src="logo"  max-height="100px" max-width="140px"></v-img>
+
 <v-spacer></v-spacer>
+        <template v-slot:extension>
+            <v-tabs
+                    class="ml-8"
+                    background-color="transparent"
+            >
+                <v-tab to="/">Tab 1</v-tab>
+                <v-tab to="/about">Tab 2</v-tab>
+            </v-tabs>
+        </template>
     </v-app-bar>
 
     <v-content>
@@ -18,10 +37,8 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
-
   data: () => ({
     logo: require("@/assets/Petziferum_schriftzug_Trans.png")
   }),
