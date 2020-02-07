@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Chat from '@/components/Chat'
+import Database from '@/views/Database'
+import Signup from '@/compnents/auth/Signup'
 
 Vue.use(VueRouter)
 
@@ -10,6 +12,16 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: Signup
+  },
+  {
+    path: '/db',
+    name: 'db',
+    component: Database
   },
   {
     path:'/chat',
