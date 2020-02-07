@@ -21,8 +21,9 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import db from '@/firebase/init'
     import NewMessage from "./NewMessage";
+
     export default {
         name: "Chat.vue",
         props: ['name'],
@@ -34,15 +35,25 @@
                 messages: []
             }
         },
-        mounted() {
-            axios.get("https://petziferum-85609.firebaseio.com/chat.json")
-                .then(res => {
-                    for(let key in res.data){
-                        const data = res.data[key]
-                        data.id = key
-                        this.messages.push(data)
-                    }
-                })
+        created() {
+            let ref = db.collection('chat').orderBy('timestamp')
+             ref.onSnapshot(snapshot => {
+                 snapshot.docChanges().forEach(change => {
+                     if (change.type == "added") {
+                         let doc = change.doc
+                         this.messages.push({
+                             id: doc.id,
+                             name: doc.data().name,
+                             content: doc.data().content,
+                             timestamp: doc.data().timestamp
+                         })
+                     }
+                 })
+             })
+        },
+        watch: {
+
+
         }
     }
 </script>

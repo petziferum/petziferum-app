@@ -11,33 +11,33 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import db from '@/firebase/init'
     export default {
 
         name: "NewMessage.vue",
         props: ['name'],
-        data(){ return {
-            newMessage: null,
-            feedback: null
-        }},
+        data() {
+            return {
+                newMessage: null,
+                feedback: null
+            }
+        },
         methods: {
-            addMessage(){
-                if(this.newMessage){
+            addMessage() {
+                if (this.newMessage) {
                     this.feedback = null;
                     const message = {
                         content: this.newMessage,
                         name: this.name,
                         timestamp: Date.now()
                     }
-                    axios.post("https://petziferum-85609.firebaseio.com/chat.json", message)
-                    .then(res => {
-                        console.log("eingabe:",res)
-                    }).catch(error => {
-                        console.log(error)
-                    })
+                    db.collection('chat').add(message)
+                        .catch(err => {
+                            console.log(err)
+                        })
                     this.newMessage = null
-                } else{this.feedback = "Enter Message"}
 
+                }
             }
         }
     }

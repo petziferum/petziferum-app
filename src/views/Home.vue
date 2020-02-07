@@ -128,7 +128,7 @@
                 this.$refs.form.resetValidation()
             },
             // loadSubmissions()  {
-            //     axios.get("https://petziferum-85609.firebaseio.com/submitted.json")
+            //     firebase.get("https://petziferum-85609.firebaseio.com/submitted.json")
             //         .then(res => {
             //             const data = res.data;
             //             for(let key in data ){
