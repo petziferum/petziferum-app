@@ -60,6 +60,8 @@
             <v-row>
                 <v-col>
             <v-card-title>Submissions</v-card-title>
+                    <v-btn @click="getTodo">GET</v-btn><br>
+                    {{items}}
                 </v-col>
             </v-row>
             <v-row>
@@ -73,17 +75,13 @@
             </v-card-text>
             </v-row>
         </v-card>
-
     </v-container>
-
-
-
 </template>
 
 <script>
     // @ is an alias to /src
     import user from "../components/User"
-
+    import axios from 'axios'
     export default {
         name: 'home',
         components: {
@@ -111,6 +109,15 @@
             subs: [{email: "stefan@mail.com",name:"stefan",valid:false,id:"2"}]
     }),
         methods: {
+            getTodo(){
+                axios.get('http://localhost:8081/todo')
+                .then(res =>{
+                    this.items = res
+                }).catch(error =>{
+                    console.log(error)
+                })
+            },
+
             submit() {
                 const content = {
                     name: this.name,

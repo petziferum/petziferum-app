@@ -22,6 +22,9 @@
                     <v-tab to="/">Home</v-tab>
                     <v-tab to="/enter">Chat</v-tab>
                     <v-tab to="/db">Database</v-tab>
+                    <v-tab to="/signup">Signup</v-tab>
+                    <v-tab to="/signIn">SignIn</v-tab>
+                    <v-tab to="/dashboard">Dashboard</v-tab>
                 </v-tabs>
             </template>
         </v-app-bar>

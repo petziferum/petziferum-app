@@ -3,7 +3,9 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Chat from '@/components/Chat'
 import Database from '@/views/Database'
-import Signup from '@/compnents/auth/Signup'
+import Signup from '@/components/auth/Signup'
+import Signin from '@/components/auth/Signin'
+import dashboard from '@/components/Dashboard/Dashboard'
 
 Vue.use(VueRouter)
 
@@ -17,6 +19,16 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: Signup
+  },
+  {
+    path: '/signin',
+    name: 'signin',
+    component: Signin
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: dashboard
   },
   {
     path: '/db',
