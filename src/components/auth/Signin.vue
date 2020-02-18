@@ -17,11 +17,10 @@
                                       :type="show ? 'text' : 'password'"
                                       :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                         ></v-text-field>
-                        <v-text-field  v-model="alias" label="alias" :rules="aliasrules" ></v-text-field>
                         <v-btn outlined color="blue" @click.prevent="signIn">Sign-in</v-btn>
                         <v-alert border="left" colored-border color="red" elevation="12"  v-if="feedback" dense class="mt-2">{{feedback}}</v-alert>
                     </v-form>
-
+                    {{getData}}
                 </v-col>
 
             </v-row>
@@ -53,21 +52,19 @@
                 ]
             }
         },
+        computed: {
+            getData() {
+                return this.$store.getters.token
+            },
+        },
         methods:{
             signIn(){
                 const formData = {
                     email:this.email,
                     password:this.password,
-                    alias:this.alias
                 }
-                console.log(formData)
+                console.log("formData: ",formData)
                 this.$store.dispatch("login",{email:formData.email,password:formData.password})
-                if(this.alias){
-                    this.feedback ="Alles klar, dein Alias ist: "+ this.alias
-                    this.alias = ""
-                }else{
-                    this.feedback = "you must enter alias"
-                }
             }
         }
     }

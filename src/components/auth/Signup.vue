@@ -18,7 +18,7 @@
                                       :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                         ></v-text-field>
                         <v-text-field  v-model="alias" label="alias" :rules="aliasrules" ></v-text-field>
-                        <v-btn outlined color="blue" @click.prevent="signup">Sign-in</v-btn>
+                        <v-btn outlined color="blue" @click.prevent="signUp">Sign-in</v-btn>
                         <v-alert border="left" colored-border color="red" elevation="12"  v-if="feedback" dense class="mt-2">{{feedback}}</v-alert>
                     </v-form>
 
@@ -53,19 +53,14 @@
             }
         },
         methods:{
-            signup(){
+            signUp(){
                 const formData = {
                     email:this.email,
                     password:this.password,
                     alias:this.alias
                 }
                 console.log(formData)
-                this.$store.dispatch("signup", formData)
-                if(this.alias){
-                    this.feedback ="Alles klar, dein Alias ist: "+ this.alias
-                }else{
-                    this.feedback = "you must enter alias"
-                }
+                this.$store.dispatch("signUp", formData)
             }
         }
     }

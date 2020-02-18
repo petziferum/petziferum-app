@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
       idToken:null,
       userId: null,
-    user:null
+      user:'petzi'
   },
   mutations: {
     authUser (state, userData){
@@ -18,12 +18,12 @@ export default new Vuex.Store({
     INIT_USER (state, payload){
       state.user = payload
 },
-    STORE_USER(state,payload){
-      state.user = payload
+    storeUser(state,user){
+      state.user = user
     }
   },
   actions: {
-      signup({commit},authData){
+      signUp({commit,dispatch},authData){ //User wird als authentifizierter User angelegt, dann in der DAtenbank gespeichert!
               axiosauth.post('/accounts:signUp?key=AIzaSyDmg53knKxrYOFMWUM2h0jUI8etJyuT_vw',{
                   email: authData.email,
                   password: authData.password,
@@ -34,22 +34,22 @@ export default new Vuex.Store({
                       token: res.data.idToken,
                       userId: res.data.localId
                   })
+                  dispatch('storeUser',authData)
               }).catch(error => {
                   console.log(error)
               })
       },
-      login ({commit,dispatch},authData) {
+      login ({commit},authData) {
               axiosauth.post('/accounts:signInWithPassword?key=AIzaSyDmg53knKxrYOFMWUM2h0jUI8etJyuT_vw', {
                   email: authData.email,
                   password: authData.password,
                   returnSecureToken: true
               }).then(res => {
-                  console.log(res)
+                  console.log("login accepted: ",res.data)
                   commit('authUser', {
                       token: res.data.idToken,
                       userId: res.data.localId
                   })
-                  dispatch('storeUser', authData)
               }).catch(error => {
                   console.log(error)
               })
@@ -59,27 +59,29 @@ export default new Vuex.Store({
           if(!state.idToken){
               return
           }
-          axios.post('/users.json'+'?auth='+ state.idToken,userData)
-              .then(res => console.log(res))
+          axios.post('/users.json' + '?auth=' + state.idToken,userData)
+              .then(res => console.log("In Datenbank gespeichert",res))
               .catch(error => console.log(error))
       },
       fetchUser({commit,state}){
           if(!state.idToken){
+              console.log("idToken:", state.idToken)
               return
           }
-            axios.get('/users.json+\'?auth=\'+ state.idToken')
+          console.log(state.idToken)
+            axios.get('/users.json?auth=' + state.idToken)
                 .then(res =>{
-                    const data = res.data()
+                    const data = res.data
                     const users = []
-                    console.log(res,data,users)
+                    console.log("empfange",res.data,users)
                     for(let key in data){
                         const user = data[key]
                         user.id = key
                         users.push(user)
                     }
                     console.log(users)
-                    commit('STORE_USER',users[0])
-                })
+                    commit('storeUser',users[0])
+                }).catch(err => console.log("fehler",state.idToken,err))
       },
     init({commit}) {
       axios.get("https://petziferum-85609.firebaseio.com/submitted.json")
@@ -100,13 +102,16 @@ export default new Vuex.Store({
           .then(
             console.log("user wird gespeichert",content)
           )
-    commit("STORE_USER", content)
+    commit("storeUser", content)
 
 }
 },
   getters: {
-    getUser:(state) =>{
+    user: (state) => {
       return state.user;
+},
+token:(state) =>{
+        return state.idToken
 }
   },
   modules: {
