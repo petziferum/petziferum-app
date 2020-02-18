@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <h1>Dashboard</h1>
-        <v-card max-width="25%" tile dark>
+        <v-card v-if="getData.alias" max-width="25%" tile dark>
             <v-card-title>Willkommen {{getData.alias}}</v-card-title>
             <v-card-subtitle>{{email}}</v-card-subtitle>
             <v-card-text>ID: {{getData.id}}</v-card-text>
