@@ -1,5 +1,7 @@
 # petziferum
+#
 #GooToKnow
+
   Importieren vo Json oder js dateien immer durch eine Kopie, wie etwa in einem Array, der durch eine For schleife befüllt wird:
   ```
   const importRecommendedPartner = [];
